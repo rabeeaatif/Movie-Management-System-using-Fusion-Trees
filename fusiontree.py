@@ -244,3 +244,173 @@ class FusionTree:
         sketch_len = int(pow(node.key_count, 3)) + 1
         
         return node.key_count - (i // sketch_len)
+    
+    def successor(self, k, node = None):
+        if node == None:
+            node = self.root
+
+        if node.key_count == 0:
+            if node.isLeaf:
+                return -1
+            else:
+                return self.successor(k, node.children[0])
+       
+        # the corner cases are not concretely defined.
+        # other alternative to handle these would be to have
+        # -inf and inf at corners of keys array
+        #print(k)
+        if node.keys[0][0] >= k:
+            if not node.isLeaf:
+                res = self.successor(k, node.children[0])
+                if res == -1:
+                    return node.keys[0]
+                else:
+                    return min(node.keys[0], res)
+            else:
+                return node.keys[0]
+        
+        if node.keys[node.key_count - 1][0] < k:
+            if node.isLeaf:
+                return -1
+            else:
+                return self.successor(k, node.children[node.key_count])
+
+        pos = self.parallelComp(node, k)
+        # print("pos = ", pos)
+
+        if pos >= node.key_count:
+            print(node.keys, pos)
+            dump = input()
+        
+        if pos == 0:
+            pos += 1
+            # x = node.keys[pos]
+        
+        # find the common prefix
+        # it can be guranteed that successor of k is successor
+        # of next smallest element in subtree
+        x = max(node.keys[pos - 1], node.keys[pos])
+        # print("x = ", x)
+        common_prefix = 0
+        i = self.w
+        while i >= 0 and (x[0] & (1 << i)) == (k & (1 << i)):
+            # print(i)
+            common_prefix |= x[0] & (1 << i) 
+            i -= 1
+        if i == -1:
+            return x
+        
+        temp = common_prefix | (1 << i)
+
+        pos = self.parallelComp(node, temp)
+        # if pos == 0:
+        # possible error?
+        #     pos += 1
+        # print("pos = ", pos, bin(temp))
+        if node.isLeaf:
+            return node.keys[pos]
+        else:
+            res = self.successor(k, node.children[pos])
+            if res == -1:
+                return node.keys[pos]
+            else:
+                return res
+
+    def predecessor(self, k, node = None):
+        if node == None:
+            node = self.root
+
+        if node.key_count == 0:
+            if node.isLeaf:
+                return -1
+            else:
+                return self.predecessor(k, node.children[0])
+       
+        # the corner cases are not concretely defined.
+        # other alternative to handle these would be to have
+        # 0 and inf at corners of keys array
+        if node.keys[0][0] > k:            
+            if not node.isLeaf:
+                return self.predecessor(k, node.children[0])
+            else:
+                return -1
+        
+        if node.keys[node.key_count - 1][0] <= k:
+            if node.isLeaf:
+                return node.keys[node.key_count - 1]
+            else:
+                ret =  self.predecessor(k, node.children[node.key_count])
+                retx = self.predecessor(k, node.children[node.key_count])
+                if isinstance(ret, list):
+                    retx=ret[0]
+                c= max(retx, node.keys[node.key_count - 1][0])
+                if c==retx:
+                    return ret
+                else:
+                    return node.keys[node.key_count - 1]
+
+        pos = self.parallelComp(node, k)
+
+        if pos >= node.key_count:
+            print(node.keys, pos, "ERROR? pos > key_count")
+            dump = input()
+        
+        if pos == 0:
+            pos += 1
+        
+        # find the common prefix
+        # it can be guranteed that successor of k is successor
+        # of next smallest element in subtree
+        x = node.keys[pos]
+        common_prefix = 0
+        i = self.w
+        while i >= 0 and (x[0] & (1 << i)) == (k & (1 << i)):
+            common_prefix |= x[0] & (1 << i) 
+            i -= 1
+        if i == -1:     # i.e. if x is exactly equal to k
+            return x
+        
+        temp = common_prefix | ((1 << i) - 1)
+        pos = self.parallelComp(node, temp)
+        if pos == 0:
+            if node.isLeaf:
+                return node.keys[pos]
+            res = self.predecessor(k, node.children[1])
+            if res == -1:
+                return node.keys[pos]
+            else:
+                return res
+                
+        if node.isLeaf:
+            return node.keys[pos - 1]
+        else:
+            res = self.predecessor(k, node.children[pos])
+            if res == -1:
+                return node.keys[pos - 1]
+            else:
+                return res
+
+    def initiate(self, node):
+        if node == None:
+            node = Node(self.keys_max)
+        self.initiateNode(node)
+        if not node.isLeaf:
+            for i in range(node.keys_max + 1):
+                self.initiate(node.children[i])
+    
+    def initiateTree(self):
+        self.initiate(self.root)
+
+    def search(self, h, t, g):
+        d = t
+        # if x != None:
+        #     return x
+        if d == None:
+            pass
+        else:
+            for i in d.keys:
+                if i != None and h in i:
+                    print(g[i[0]])
+                    # return g[i[0]]
+            for j in d.children:
+                self.search(h, j, g)
