@@ -2,16 +2,94 @@ from tkinter import*
 import random
 import time
 
+class Table:   
+    def __init__(self,root): 
+        # sample data 
+        lst = [(1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4)] 
+        # find total number of rows and columns in list 
+        self.total_rows = len(lst) 
+        self.total_columns = len(lst[0]) 
+
+        # for creating table 
+        for i in range(self.total_rows): 
+            for j in range(self.total_columns): 
+                  
+                self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold')) 
+                  
+                self.entry.grid(row=i, column=j) 
+                self.entry.insert(END, lst[i][j]) 
+
+class Info:
+    def __init__(self, master):
+        self.root = master
+        self.root.geometry("1285x700+0+0")
+        self.root.title("Movie Info")
+        self.root.configure(bg='grey')
+
+        # display options
+        self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
+        self.info_page_scroll.grid(row=0, column=4)
+
+        self.display_area = Frame(self.root, width = 900, height=700, relief=SUNKEN, bg = 'black') # , yscrollcommand=self.info_page_scroll.set)
+        self.display_area.grid(row=0, column=0)
+        self.entry = Table(self.display_area)
+
+
+        self.root.mainloop()
+
+    def exit(self):
+        self.root.destroy()
+
 class Admin:
     def __init__(self, master):
         self.root = master
-        self.root.geometry("1300x700+0+0")
-        self.root.title("Movies Management System")
+        self.root.geometry("500x400+0+0")
+        self.root.title("Admin Page")
         self.root.configure(bg='grey')
 
+        # welcome label
+        self.welcome = Label(self.root, font=( 'aria' ,25, 'bold' ),text="Welcome to admin page!",fg="black",bd=12,anchor='w', bg = 'grey')
+        self.welcome.place(x=50, y=0)
+
         # buttons
-        self.admin_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Admin", bg="powder blue")
-        self.admin_button.place(x=150,y=250)
+        self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add", bg="powder blue")
+        self.add_button.place(x=150,y=100)
+
+        self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue")
+        self.update_button.place(x=150,y=200)
+
+        self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
+        self.delete_button.place(x=150,y=300) 
 
         self.root.mainloop()
 
@@ -22,7 +100,7 @@ class User:
     def __init__(self, master):
         self.root = master
         self.root.geometry("500x400+0+0")
-        self.root.title("Movies Management System")
+        self.root.title("User Page")
         self.root.configure(bg='grey')
 
         # buttons, inputs
@@ -65,10 +143,14 @@ class User:
         self.txtIMDB_Rating = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.IMDB_Rating, bd=6,insertwidth=4,bg="powder blue" ,justify='left')
         self.txtIMDB_Rating.grid(row=5,column=3)
 
-        self.admin_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Show", bg="powder blue")
-        self.admin_button.grid(row=6,column=3)
+        self.show_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Show", bg="powder blue", command=self.show_func)
+        self.show_button.grid(row=6,column=3)
 
         self.root.mainloop()
+
+    def show_func(self):
+        info = Toplevel()
+        self.movie_info = Info(info)
 
     def exit(self):
         self.root.destroy()
