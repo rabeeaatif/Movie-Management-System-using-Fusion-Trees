@@ -79,10 +79,10 @@ class Admin:
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("Admin Page")
-        self.root.configure(bg='grey')
+        self.root.configure(bg='black')
 
         # welcome label
-        self.welcome = Label(self.root, font=( 'aria' ,25, 'bold' ),text="Welcome to admin page!",fg="black",bd=12,anchor='w', bg = 'grey')
+        self.welcome = Label(self.root, font=( 'aria' ,25, 'bold' ),text="Welcome to admin page!",fg="white",bd=12,anchor='w', bg = 'black')
         self.welcome.place(x=50, y=0)
 
         # buttons
@@ -93,7 +93,11 @@ class Admin:
         self.update_button.place(x=150,y=200)
 
         self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
-        self.delete_button.place(x=150,y=300) 
+        self.delete_button.place(x=150,y=300)
+        
+        var1 = IntVar()
+        FTrees = Checkbutton(master, text="Using Fusion Trees", variable=var1).place(x=400,y=230)
+        Ftrees.config(font=('ariel' ,16,'bold'), bg='black', fg='white') 
 
         self.root.mainloop()
         
@@ -119,21 +123,9 @@ class update_details:
         self.root.title("Update existing movie entries")
         self.root.configure(bg='black')
         
-        #master = Tk()
-
-#         variable = StringVar(master)
-#         variable.set("fields") # default value
-# 
-#         w = OptionMenu(master, variable, "Movie Name", "MovieDirector", "Genre", "ReleaseYear", "ReleaseDate", "IMDB_Rating" )
-#         w.grid(row=0,column=3)
-#         w.pack()
-
-        #mainloop()
-
         self.options = StringVar() #for drop down menu
         self.options.set("IMDB Rating")
         
-        #w.pack()
 
         # buttons, inputs
         self.MovieName= StringVar()
@@ -157,13 +149,12 @@ class update_details:
         w.grid(row=3,column=3)
 #         self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
 #         self.txtMovieDirector.grid(row=1,column=3)
-# 
+ 
         self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="New Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
         self.lblGenre.grid(row=4,column=2)
         self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
         self.txtGenre.grid(row=4,column=3)
-# 
-# 
+
 
 
         self.root.mainloop()
@@ -233,16 +224,6 @@ class add_details:
         
     def enter_details(self):
         messagebox.showinfo("Message", "User has been successfully added")
-        
-#         master = Tk()
-#         text = "User has been successfully added"
-#         msg =Message(master, text = text)
-#         msg.config(bg='white',  bd=10,font=('steel blue' ,13,'bold'))
-#         msg.pack()
-#         mainloop()
-
-        ##self.movie_info = Info(info)
-
     
 
 class User:
