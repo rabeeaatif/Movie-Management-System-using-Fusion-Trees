@@ -1,6 +1,10 @@
 from tkinter import*
 import random
 import time
+#import tkMessageBox
+from tkinter import messagebox
+
+
 
 class Table:   
     def __init__(self,root): 
@@ -82,19 +86,163 @@ class Admin:
         self.welcome.place(x=50, y=0)
 
         # buttons
-        self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add", bg="powder blue")
+        self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add", bg="powder blue", command = self.add_movie)
         self.add_button.place(x=150,y=100)
 
-        self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue")
+        self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command = self.update_movie)
         self.update_button.place(x=150,y=200)
 
         self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
         self.delete_button.place(x=150,y=300) 
 
         self.root.mainloop()
-
+        
+    def add_movie(self):
+        self.root.destroy() #current window closed
+        self.root = Tk() #new window
+        self.user = add_details(self.root)
+        
+    def update_movie(self):
+        self.root.destroy() #current window closed
+        self.root = Tk() #new window
+        self.user = update_details(self.root)
+   
+        
     def exit(self):
         self.root.destroy()
+        
+        
+class update_details:
+    def __init__(self, master):
+        self.root = master
+        self.root.geometry("500x400+0+0")
+        self.root.title("Update existing movie entries")
+        self.root.configure(bg='grey')
+        
+        #master = Tk()
+
+#         variable = StringVar(master)
+#         variable.set("fields") # default value
+# 
+#         w = OptionMenu(master, variable, "Movie Name", "MovieDirector", "Genre", "ReleaseYear", "ReleaseDate", "IMDB_Rating" )
+#         w.grid(row=0,column=3)
+#         w.pack()
+
+        #mainloop()
+
+        self.options = StringVar() #for drop down menu
+        self.options.set("IMDB Rating")
+        w = OptionMenu(self.root,self.options, "Movie Name", "MovieDirector", "Genre", "ReleaseYear", "ReleaseDate", "IMDB_Rating" )
+        w.config(font=('ariel' ,16,'bold'))
+        w.grid(row=3,column=3)
+        #w.pack()
+
+        # buttons, inputs
+        self.MovieName= StringVar()
+        self.MovieDirector= StringVar()
+        self.Genre = StringVar()
+        self.ReleaseYear = StringVar()
+        self.ReleaseDate= StringVar()
+        self.IMDB_Rating= StringVar()
+        
+        
+
+        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text= "Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
+        self.lblMovieName.grid(row=2,column=2)
+        self.txtMovieName = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtMovieName.grid(row=3,column=2)
+
+        self.lblMovieDirector = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Field to update",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.lblMovieDirector.grid(row=2,column=3)
+#         self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+#         self.txtMovieDirector.grid(row=1,column=3)
+# 
+#         self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w', bg = 'black')
+#         self.lblGenre.grid(row=2,column=2)
+#         self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+#         self.txtGenre.grid(row=2,column=3)
+# 
+# 
+
+
+        self.root.mainloop()
+
+    
+    def exit(self):
+        self.root.destroy()
+        
+    def enter_details(self):
+        messagebox.showinfo("Message", "User has been successfully added")
+
+class add_details:
+    def __init__(self, master):
+        self.root = master
+        self.root.geometry("500x400+0+0")
+        self.root.title("New Movie Entry details")
+        self.root.configure(bg='grey')
+
+        # buttons, inputs
+        self.MovieName= StringVar()
+        self.MovieDirector= StringVar()
+        self.Genre = StringVar()
+        self.ReleaseYear = StringVar()
+        self.ReleaseDate= StringVar()
+        self.IMDB_Rating= StringVar()
+
+
+        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
+        self.lblMovieName.grid(row=0,column=2)
+        self.txtMovieName = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtMovieName.grid(row=0,column=3)
+
+        self.lblMovieDirector = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Director",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.lblMovieDirector.grid(row=1,column=2)
+        self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtMovieDirector.grid(row=1,column=3)
+
+        self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.lblGenre.grid(row=2,column=2)
+        self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtGenre.grid(row=2,column=3)
+
+
+        self.lblReleaseYear = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Release year",fg="steel blue",bd=10,anchor='w',  bg = 'black')
+        self.lblReleaseYear.grid(row=3,column=2)
+        self.txtReleaseYear = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.ReleaseYear , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtReleaseYear.grid(row=3,column=3)
+
+        self.lblReleaseDate = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Release Date",fg="steel blue",bd=10,anchor='w',  bg = 'black')
+        self.lblReleaseDate.grid(row=4,column=2)
+        self.txtReleaseDate = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.ReleaseDate , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtReleaseDate.grid(row=4,column=3)
+
+        self.lblIMDB_Rating = Label(self.root, font=( 'aria' ,16, 'bold' ),text="IMDB Rating",fg="steel blue",bd=10,anchor='w',  bg = 'black')
+        self.lblIMDB_Rating.grid(row=5,column=2)
+        self.txtIMDB_Rating = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.IMDB_Rating, bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtIMDB_Rating.grid(row=5,column=3)
+
+        self.show_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add Details", bg="powder blue", command=self.enter_details)
+        self.show_button.grid(row=6,column=3)
+
+        self.root.mainloop()
+
+    
+    def exit(self):
+        self.root.destroy()
+        
+    def enter_details(self):
+        messagebox.showinfo("Message", "User has been successfully added")
+        
+#         master = Tk()
+#         text = "User has been successfully added"
+#         msg =Message(master, text = text)
+#         msg.config(bg='white',  bd=10,font=('steel blue' ,13,'bold'))
+#         msg.pack()
+#         mainloop()
+
+        ##self.movie_info = Info(info)
+
+    
 
 class User:
     def __init__(self, master):
