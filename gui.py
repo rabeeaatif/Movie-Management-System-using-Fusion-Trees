@@ -58,7 +58,7 @@ class Info:
         self.root = master
         self.root.geometry("1285x700+0+0")
         self.root.title("Movie Info")
-        self.root.configure(bg='grey')
+        self.root.configure(bg='black')
 
         # display options
         self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
@@ -117,7 +117,7 @@ class update_details:
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("Update existing movie entries")
-        self.root.configure(bg='grey')
+        self.root.configure(bg='black')
         
         #master = Tk()
 
@@ -132,9 +132,7 @@ class update_details:
 
         self.options = StringVar() #for drop down menu
         self.options.set("IMDB Rating")
-        w = OptionMenu(self.root,self.options, "Movie Name", "MovieDirector", "Genre", "ReleaseYear", "ReleaseDate", "IMDB_Rating" )
-        w.config(font=('ariel' ,16,'bold'))
-        w.grid(row=3,column=3)
+        
         #w.pack()
 
         # buttons, inputs
@@ -150,17 +148,20 @@ class update_details:
         self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text= "Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
         self.lblMovieName.grid(row=2,column=2)
         self.txtMovieName = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieName.grid(row=3,column=2)
+        self.txtMovieName.grid(row=2,column=3)
 
         self.lblMovieDirector = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Field to update",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.lblMovieDirector.grid(row=2,column=3)
+        self.lblMovieDirector.grid(row=3,column=2)
+        w = OptionMenu(self.root,self.options, "Movie Name", "MovieDirector", "Genre", "ReleaseYear", "ReleaseDate", "IMDB_Rating" )
+        w.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
+        w.grid(row=3,column=3)
 #         self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
 #         self.txtMovieDirector.grid(row=1,column=3)
 # 
-#         self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w', bg = 'black')
-#         self.lblGenre.grid(row=2,column=2)
-#         self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-#         self.txtGenre.grid(row=2,column=3)
+        self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="New Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.lblGenre.grid(row=4,column=2)
+        self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtGenre.grid(row=4,column=3)
 # 
 # 
 
@@ -179,7 +180,7 @@ class add_details:
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("New Movie Entry details")
-        self.root.configure(bg='grey')
+        self.root.configure(bg='black')
 
         # buttons, inputs
         self.MovieName= StringVar()
