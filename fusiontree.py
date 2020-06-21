@@ -1,6 +1,8 @@
+import csv
+
 class Node:
     """Class for fusion tree node"""
-    def _init_(self, max_keys = None):
+    def __init__(self, max_keys = None):
         self.keys = []
         self.children = []
         self.key_count = 0
@@ -36,8 +38,9 @@ class FusionTree:
             if keys[i] == None:
                 break;
             for j in range(i):
-                w = self.w                
-                while (keys[i][0] & 1 << w) == (keys[j][0] & 1 << w) and w >= 0:
+                w = self.w
+                
+                while (keys[i] & 1 << w) == (keys[j] & 1 << w) and w >= 0:
                     w -= 1
                 if w >= 0:
                     bits |= 1 << w
@@ -103,9 +106,7 @@ class FusionTree:
             node.mask_sketch = 0
             node.mask_q = 0
             for i in range(node.key_count):
-                print("This is nodeW::::"+str(node))
-                sketch = self.sketchApprox(node, node.keys[i][0])
-                print(sketch)
+                sketch = self.sketchApprox(node, node.keys[i])
                 temp = 1 << r3
                 temp |= sketch
                 node.node_sketch <<= sketch_len
@@ -123,7 +124,7 @@ class FusionTree:
         
         
 
-    def _init_(self, word_len = 64, c = 1/5):
+    def __init__(self, word_len = 64, c = 1/5):
         # print(word_len)
         self.keys_max = int(pow(word_len, c))
         self.keys_max = max(self.keys_max, 2)
@@ -169,32 +170,75 @@ class FusionTree:
 
         node.key_count += 1
 
-    def insertNormal(self, node, k):
+    def insertNormal(self, node, key, s):
         # print(node, node.keys,'\n', node.key_count)
         # insert k into node when no chance of splitting the root
+        # print(key)
+        if s == "Genre":
+            if isinstance(key[2], str):
+                string = key[2].rstrip()
+                string = ''.join(e for e in string if e.isalnum())
+                string = string.lower()
+                k = hash(string)
+            else:
+                k = key[2]
+            key[2] = k
+        elif s == "Title":
+            if isinstance(key[1], str):
+                string = key[1].rstrip()
+                string = ''.join(e for e in string if e.isalnum())
+                string = string.lower()
+                k = hash(string)
+            else:
+                k = key[1]
+            key[1] = k
+        elif s == "Year":
+            if isinstance(key[4], str):
+                string = key[4].rstrip()
+                string = ''.join(e for e in string if e.isalnum())
+                string = string.lower()
+                k = hash(string)
+            else:
+                k = key[4]
+            key[1] = k
+        if s == "Genre":
+            index = 2
+        elif s == "Title":
+            index = 1
+        elif s == "Year":
+            index = 4
         if node.isLeaf:
-            i = [node.key_count]
-            while i[0] >= 1 and k < node.keys[i[0] - 1]:
-                node.keys[i[0]] = node.keys[i[0] - 1]
-                i[0] -= 1
-            node.keys[i[0]] = k
+            i = node.key_count
+            print(node.keys[i - 1])
+            if node.keys[i - 1] != None:
+                print(node.keys[i - 1][index])
+                while i >= 1 and k < node.keys[i - 1][index]:
+                    node.keys[i] = node.keys[i - 1]
+                    i -= 1
+            # else:
+            #     while i >= 1 and k < node.keys[i - 1]:
+            #         node.keys[i] = node.keys[i - 1]
+            #         i -= 1
+            node.keys[i] = key
             node.key_count += 1
             return
         else:
-            i = [node.key_count]
-            while i[0] >= 1 and k < node.keys[i[0] - 1]:
-                i[0] -= 1
+            i = node.key_count
+            if node.keys[i - 1] != None:
+                while i >= 1 and k < node.keys[i - 1][index]:
+                    i -= 1
+            # else:
+            #     while i >= 1 and k < node.keys[i - 1]:
+            #         i -= 1
             # i = position of appropriate child
 
-            if node.children[i[0]].key_count == self.keys_max:
-                self.splitChild(node, i[0])
-                print(k[0])
-                print(node.keys[i[0]])
-                if k[0] > node.keys[i[0]][0]:
-                    i[0] += 1
-            self.insertNormal(node.children[i[0]], k)
+            if node.children[i] != None and node.children[i].key_count == self.keys_max:
+                self.splitChild(node, i)
+                if node.keys[i] != None and k > node.keys[i][index]:
+                    i += 1
+            self.insertNormal(node.children[i], key, s)
 
-    def insert(self, k):
+    def insert(self, k, s):
         # This insert checks if splitting is needed
         # then it splits and calls normalInsert
 
@@ -207,15 +251,15 @@ class FusionTree:
             temp_node.children[0] = self.root
             self.root = temp_node
             self.splitChild(temp_node, 0)
-            self.insertNormal(temp_node, k)
+            self.insertNormal(temp_node, k, s)
         else:
-            self.insertNormal(self.root, k)
+            self.insertNormal(self.root, k, s)
 
     def successorSimple(self, node, k):
         i = 0
-        while i < node.key_count and k[0] > node.keys[i]:
+        while i < node.key_count and k > node.keys[i]:
             i += 1
-        if i < node.key_count and k[0] > node.keys[i]:
+        if i < node.key_count and k > node.keys[i]:
             return node.keys[i]
         elif node.isLeaf:
             return node.keys[i]
@@ -244,7 +288,7 @@ class FusionTree:
         sketch_len = int(pow(node.key_count, 3)) + 1
         
         return node.key_count - (i // sketch_len)
-    
+
     def successor(self, k, node = None):
         if node == None:
             node = self.root
@@ -258,8 +302,7 @@ class FusionTree:
         # the corner cases are not concretely defined.
         # other alternative to handle these would be to have
         # -inf and inf at corners of keys array
-        #print(k)
-        if node.keys[0][0] >= k:
+        if node.keys[0] >= k:
             if not node.isLeaf:
                 res = self.successor(k, node.children[0])
                 if res == -1:
@@ -269,7 +312,7 @@ class FusionTree:
             else:
                 return node.keys[0]
         
-        if node.keys[node.key_count - 1][0] < k:
+        if node.keys[node.key_count - 1] < k:
             if node.isLeaf:
                 return -1
             else:
@@ -293,9 +336,9 @@ class FusionTree:
         # print("x = ", x)
         common_prefix = 0
         i = self.w
-        while i >= 0 and (x[0] & (1 << i)) == (k & (1 << i)):
+        while i >= 0 and (x & (1 << i)) == (k & (1 << i)):
             # print(i)
-            common_prefix |= x[0] & (1 << i) 
+            common_prefix |= x & (1 << i) 
             i -= 1
         if i == -1:
             return x
@@ -329,25 +372,18 @@ class FusionTree:
         # the corner cases are not concretely defined.
         # other alternative to handle these would be to have
         # 0 and inf at corners of keys array
-        if node.keys[0][0] > k:            
+        if node.keys[0] > k:
             if not node.isLeaf:
                 return self.predecessor(k, node.children[0])
             else:
                 return -1
         
-        if node.keys[node.key_count - 1][0] <= k:
+        if node.keys[node.key_count - 1] <= k:
             if node.isLeaf:
                 return node.keys[node.key_count - 1]
             else:
                 ret =  self.predecessor(k, node.children[node.key_count])
-                retx = self.predecessor(k, node.children[node.key_count])
-                if isinstance(ret, list):
-                    retx=ret[0]
-                c= max(retx, node.keys[node.key_count - 1][0])
-                if c==retx:
-                    return ret
-                else:
-                    return node.keys[node.key_count - 1]
+                return max(ret, node.keys[node.key_count - 1])
 
         pos = self.parallelComp(node, k)
 
@@ -364,8 +400,8 @@ class FusionTree:
         x = node.keys[pos]
         common_prefix = 0
         i = self.w
-        while i >= 0 and (x[0] & (1 << i)) == (k & (1 << i)):
-            common_prefix |= x[0] & (1 << i) 
+        while i >= 0 and (x & (1 << i)) == (k & (1 << i)):
+            common_prefix |= x & (1 << i) 
             i -= 1
         if i == -1:     # i.e. if x is exactly equal to k
             return x
@@ -401,16 +437,21 @@ class FusionTree:
     def initiateTree(self):
         self.initiate(self.root)
 
-    def search(self, h, t, g):
-        d = t
-        # if x != None:
-        #     return x
-        if d == None:
-            pass
-        else:
-            for i in d.keys:
-                if i != None and h in i:
-                    print(g[i[0]])
-                    # return g[i[0]]
-            for j in d.children:
-                self.search(h, j, g)
+
+if __name__ == "__main__":
+    # create a fusion tree of degree 3
+    tree = FusionTree(243)
+    f = open("movies.csv", encoding="utf8")
+    f.readline()
+    # s = input("What are you inserting: ")
+    s = "Genre"
+    for i in f:
+        tree.insert(i.split(","), s)
+    # tree.insert(1)
+    # tree.insert(5)
+    # tree.insert(15)
+    # tree.insert(16)
+    # tree.insert(20)
+    # tree.insert(25)
+    # tree.insert(4)
+    tree.initiateTree()
