@@ -36,7 +36,7 @@ class FusionTree:
         bits = 0
         for i in range(len(keys)):
             if keys[i] == None:
-                break;
+                break
             for j in range(i):
                 w = self.w
                 
@@ -85,10 +85,17 @@ class FusionTree:
             res |= 1 << i
         return res
 
+    def sketchApprox(self, node, x):
+        xx = x & node.mask_b
+        res = xx * node.m
+
+        res = res & node.mask_bm
+        return res
+
     def initiateNode(self, node):
         if node.key_count != 0:
             node.b_bits = self.getDiffBits(node.keys)
-            node.m_bits, node.m = self.getConst(node.b_bits);
+            node.m_bits, node.m = self.getConst(node.b_bits)
             node.mask_b = self.getMask(node.b_bits)
 
             temp = []
@@ -96,7 +103,7 @@ class FusionTree:
             # with m[i]. mask_bm will isolate these bits.
             for i in range(len(node.b_bits)):
                 temp.append(node.b_bits[i] + node.m_bits[i])
-            node.mask_bm = self.getMask(temp);
+            node.mask_bm = self.getMask(temp)
 
             # used to maintain sketch lengths
             r3 = int(pow(node.key_count, 3))
@@ -106,23 +113,15 @@ class FusionTree:
             node.mask_sketch = 0
             node.mask_q = 0
             for i in range(node.key_count):
-                sketch = self.sketchApprox(node, node.keys[i])
-                temp = 1 << r3
-                temp |= sketch
-                node.node_sketch <<= sketch_len
-                node.node_sketch |= temp
-                node.mask_q |= 1 << i * (sketch_len)
-                node.mask_sketch |= (1 << (sketch_len - 1)) << i * (sketch_len)
+                if node.keys[i] != None:
+                    sketch = self.sketchApprox(node, node.keys[i])
+                    temp = 1 << r3
+                    temp |= sketch
+                    node.node_sketch <<= sketch_len
+                    node.node_sketch |= temp
+                    node.mask_q |= 1 << i * (sketch_len)
+                    node.mask_sketch |= (1 << (sketch_len - 1)) << i * (sketch_len)
         return
-    
-    def sketchApprox(self, node, x):
-        xx = x & node.mask_b
-        res = xx * node.m
-
-        res = res & node.mask_bm
-        return res
-        
-        
 
     def __init__(self, word_len = 64, c = 1/5):
         # print(word_len)
@@ -134,7 +133,7 @@ class FusionTree:
         print("word_len = ", self.w, " max_keys = ", self.keys_max)
 
         self.root = Node(self.keys_max)
-        self.root.isLeaf = True;
+        self.root.isLeaf = True
     
     def splitChild(self, node, x):
         # a b-tree split function. Splits child of node at x index
@@ -207,7 +206,7 @@ class FusionTree:
             index = 1
         elif s == "Year":
             index = 4
-        if node.isLeaf:
+        if node != None and node.isLeaf:
             i = node.key_count
             print(node.keys[i - 1])
             if node.keys[i - 1] != None:
@@ -222,7 +221,7 @@ class FusionTree:
             node.keys[i] = key
             node.key_count += 1
             return
-        else:
+        elif node != None:
             i = node.key_count
             if node.keys[i - 1] != None:
                 while i >= 1 and k < node.keys[i - 1][index]:
@@ -254,17 +253,6 @@ class FusionTree:
             self.insertNormal(temp_node, k, s)
         else:
             self.insertNormal(self.root, k, s)
-
-    def successorSimple(self, node, k):
-        i = 0
-        while i < node.key_count and k > node.keys[i]:
-            i += 1
-        if i < node.key_count and k > node.keys[i]:
-            return node.keys[i]
-        elif node.isLeaf:
-            return node.keys[i]
-        else:
-            return self.successor2(node.children[i], k)
     
     def parallelComp(self, node, k):
         # this function should basically give the index such
@@ -286,7 +274,6 @@ class FusionTree:
             i += 1
         i += 1
         sketch_len = int(pow(node.key_count, 3)) + 1
-        
         return node.key_count - (i // sketch_len)
 
     def successor(self, k, node = None):
@@ -358,6 +345,17 @@ class FusionTree:
                 return node.keys[pos]
             else:
                 return res
+
+    def successorSimple(self, node, k):
+        i = 0
+        while i < node.key_count and k > node.keys[i]:
+            i += 1
+        if i < node.key_count and k > node.keys[i]:
+            return node.keys[i]
+        elif node.isLeaf:
+            return node.keys[i]
+        else:
+            return self.successor(node.children[i], k)
 
     def predecessor(self, k, node = None):
         if node == None:
@@ -441,7 +439,7 @@ class FusionTree:
 if __name__ == "__main__":
     # create a fusion tree of degree 3
     tree = FusionTree(243)
-    f = open("movies.csv", encoding="utf8")
+    f = open("test_movies.csv", encoding="utf8")
     f.readline()
     # s = input("What are you inserting: ")
     s = "Genre"
