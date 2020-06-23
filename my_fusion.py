@@ -115,7 +115,7 @@ class FusionTree:
             node.mask_sketch = 0
             node.mask_q = 0
             for i in range(node.key_count):
-                if node.keys[i][0] != None:
+                if node.keys[i] != None:
                     sketch = self.sketchApprox(node, node.keys[i][0])
                     temp = 1 << r3
                     temp |= sketch
@@ -239,26 +239,30 @@ class FusionTree:
 
         if node.key_count == 0:
             if node.isLeaf:
-                return -1
+                return [-1]
             else:
                 return self.successor(k, node.children[0])
        
         # the corner cases are not concretely defined.
         # other alternative to handle these would be to have
         # -inf and inf at corners of keys array
-        if node.keys[0] >= k:
+        if node.keys[0][0] >= k:
             if not node.isLeaf:
                 res = self.successor(k, node.children[0])
-                if res == -1:
+                if res[0] == -1:
                     return node.keys[0]
                 else:
-                    return min(node.keys[0], res)
+                    result = min(node.keys[0][0], res[0])
+                    if result == node.keys[0][0]:
+                        return node.keys[0]
+                    else:
+                        return res
             else:
                 return node.keys[0]
         
-        if node.keys[node.key_count - 1] < k:
+        if node.keys[node.key_count - 1][0] < k:
             if node.isLeaf:
-                return -1
+                return [-1]
             else:
                 return self.successor(k, node.children[node.key_count])
 
@@ -276,7 +280,7 @@ class FusionTree:
         # find the common prefix
         # it can be guranteed that successor of k is successor
         # of next smallest element in subtree
-        x = max(node.keys[pos - 1], node.keys[pos])
+        x = max(node.keys[pos - 1][0], node.keys[pos][0])
         # print("x = ", x)
         common_prefix = 0
         i = self.w
@@ -285,7 +289,10 @@ class FusionTree:
             common_prefix |= x & (1 << i) 
             i -= 1
         if i == -1:
-            return x
+            if x == node.keys[pos - 1][0]:
+                return node.keys[pos - 1]
+            else:
+                return node.keys[pos]
         
         temp = common_prefix | (1 << i)
 
@@ -298,7 +305,7 @@ class FusionTree:
             return node.keys[pos]
         else:
             res = self.successor(k, node.children[pos])
-            if res == -1:
+            if res[0] == -1:
                 return node.keys[pos]
             else:
                 return res
@@ -308,11 +315,11 @@ class FusionTree:
         while i < node.key_count and k > node.keys[i][0]:
             i += 1
         if i < node.key_count and k > node.keys[i][0]:
-            return node.keys[i][0]
+            return node.keys[i]
         elif node.isLeaf:
-            return node.keys[i][0]
+            return node.keys[i]
         else:
-            return self.successor(node.children[i], k)
+            return self.successor(k, node.children[i])
 
     def predecessor(self, k, node = None):
         if node == None:
@@ -320,25 +327,29 @@ class FusionTree:
 
         if node.key_count == 0:
             if node.isLeaf:
-                return -1
+                return [-1]
             else:
                 return self.predecessor(k, node.children[0])
        
         # the corner cases are not concretely defined.
         # other alternative to handle these would be to have
         # 0 and inf at corners of keys array
-        if node.keys[0] > k:
+        if node.keys[0][0] > k:
             if not node.isLeaf:
                 return self.predecessor(k, node.children[0])
             else:
-                return -1
+                return [-1]
         
-        if node.keys[node.key_count - 1] <= k:
+        if node.keys[node.key_count - 1][0] <= k:
             if node.isLeaf:
                 return node.keys[node.key_count - 1]
             else:
                 ret =  self.predecessor(k, node.children[node.key_count])
-                return max(ret, node.keys[node.key_count - 1])
+                result = max(ret[0], node.keys[node.key_count - 1][0])
+                if result == ret[0]:
+                    return ret
+                else:
+                    return node.keys[node.key_count - 1]
 
         pos = self.parallelComp(node, k)
 
@@ -352,14 +363,14 @@ class FusionTree:
         # find the common prefix
         # it can be guranteed that successor of k is successor
         # of next smallest element in subtree
-        x = node.keys[pos]
+        x = node.keys[pos][0]
         common_prefix = 0
         i = self.w
         while i >= 0 and (x & (1 << i)) == (k & (1 << i)):
             common_prefix |= x & (1 << i) 
             i -= 1
         if i == -1:     # i.e. if x is exactly equal to k
-            return x
+            return node.keys[pos]
         
         temp = common_prefix | ((1 << i) - 1)
         pos = self.parallelComp(node, temp)
@@ -367,7 +378,7 @@ class FusionTree:
             if node.isLeaf:
                 return node.keys[pos]
             res = self.predecessor(k, node.children[1])
-            if res == -1:
+            if res[0] == -1:
                 return node.keys[pos]
             else:
                 return res
@@ -376,7 +387,7 @@ class FusionTree:
             return node.keys[pos - 1]
         else:
             res = self.predecessor(k, node.children[pos])
-            if res == -1:
+            if res[0] == -1:
                 return node.keys[pos - 1]
             else:
                 return res
@@ -396,7 +407,7 @@ class FusionTree:
 if __name__ == "__main__":
     # create a fusion tree of degree 3
     tree = FusionTree(243)
-    f = open("test_movies.csv", encoding="utf8")
+    f = open("movies.csv", encoding="utf8")
     f.readline()
     # s = input("What are you inserting: ")
     # s = "Genre"
@@ -414,15 +425,15 @@ if __name__ == "__main__":
     # tree.insert(25)
     # tree.insert(4)
     tree.initiateTree()
-    # print(tree.root)
-    print(tree.root.keys)
-    for i in tree.root.children:
-        if i is not None:
-            print (i, " = ", i.keys)
-            if not i.isLeaf:
-                for j in i.children:
-                    if j is not None:
-                        print( j.keys)
-
-# for i in range(26):
-#         print(i, "------------------->", tree.predecessor(i), sep = '\t')
+    # # print(tree.root)
+    # print(tree.root.keys)
+    # for i in tree.root.children:
+    #     if i is not None:
+    #         print (i, " = ", i.keys)
+    #         if not i.isLeaf:
+    #             for j in i.children:
+    #                 if j is not None:
+    #                     print( j.keys)
+    for i in range(1000):
+        print(i, "------------------->", tree.predecessor(i), sep = '\t')
+    
