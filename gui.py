@@ -8,81 +8,97 @@ from my_fusion import*
 
 
 class Table:   
-    def __init__(self,root): 
-        # sample data 
-        lst = [(1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4)] 
-        # find total number of rows and columns in list 
+    def __init__(self,root, tree, criteria, enter_value):
+        self.tree = tree
+        final_lst = []
+        for i in range(1,1000):
+            lst = self.tree.successor(i)
+            if len(final_lst) > 0:
+                if lst != final_lst[-1]:
+                    if criteria == "Movie Name":
+                        if lst[1] == enter_value:
+                            final_lst.append(lst)
+                    elif criteria == "Genre":
+                        if lst[2] == enter_value:
+                            final_lst.append(lst)
+                    elif criteria == "Release Year":
+                        if lst[4] == enter_value:
+                            final_lst.append(lst)
+            else:
+                if criteria == "Movie Name":
+                    if lst[1] == enter_value:
+                        final_lst.append(lst)
+                elif criteria == "Genre":
+                    if lst[2] == enter_value:
+                        final_lst.append(lst)
+                elif criteria == "Release Year":
+                    if lst[4] == enter_value:
+                        final_lst.append(lst)
         
-            # self.entry = Entry(root, width=26, fg='blue', 
-            #                    font=('Arial',16,'bold'))                 
-            # self.entry.grid(row=length, column=0) 
-            # self.entry.insert(END, lst[0])
-            # self.entry = Entry(root, width=26, fg='blue', 
-            #                    font=('Arial',16,'bold'))
-            # self.entry.grid(row=length, column=1) 
-            # self.entry.insert(END, lst[1])
-            # self.entry = Entry(root, width=26, fg='blue', 
-            #                    font=('Arial',16,'bold'))
-            # self.entry.grid(row=length, column=2) 
-            # self.entry.insert(END, lst[2])
-            # self.entry = Entry(root, width=26, fg='blue', 
-            #                    font=('Arial',16,'bold'))
-            # self.entry.grid(row=length, column=3) 
-            # self.entry.insert(END, lst[3])
-            # self.entry = Entry(root, width=26, fg='blue', 
-            #                    font=('Arial',16,'bold'))
-            # self.entry.grid(row=length, column=4) 
-            # self.entry.insert(END, lst[4])
+        self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))                 
+        self.entry.grid(row=0, column=0) 
+        self.entry.insert(END, "Movie Id")
+        self.entry = Entry(root, width=26, fg='blue', 
+                            font=('Arial',16,'bold'))
+        self.entry.grid(row=0, column=1) 
+        self.entry.insert(END, "Movie Name")
+        self.entry = Entry(root, width=26, fg='blue', 
+                            font=('Arial',16,'bold'))
+        self.entry.grid(row=0, column=2) 
+        self.entry.insert(END, "Genres")
+        self.entry = Entry(root, width=26, fg='blue', 
+                            font=('Arial',16,'bold'))
+        self.entry.grid(row=0, column=3) 
+        self.entry.insert(END, "IMDb Rating")
+        self.entry = Entry(root, width=26, fg='blue', 
+                            font=('Arial',16,'bold'))
+        self.entry.grid(row=0, column=4) 
+        self.entry.insert(END, "Year")
 
+        for i in range(len(final_lst)):
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))                 
+            self.entry.grid(row=i+1, column=0) 
+            self.entry.insert(END, final_lst[i][0])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=i+1, column=1) 
+            self.entry.insert(END, final_lst[i][1])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=i+1, column=2) 
+            self.entry.insert(END, final_lst[i][2])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=i+1, column=3) 
+            self.entry.insert(END, final_lst[i][3])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=i+1, column=4) 
+            self.entry.insert(END, final_lst[i][4])
 
         # self.total_rows = length 
         # self.total_columns = len(lst)
 
 class Info:
-    def __init__(self, master, tree):
+    def __init__(self, master, tree, criteria, given_value):
         self.root = master
-        self.root.geometry("1285x700+0+0")
+        self.root.geometry("1600x700+0+0")
         self.root.title("Movie Info")
         self.root.configure(bg='black')
 
         self.tree = tree
+        self.criteria = criteria
+        self.enter_value = given_value
 
         # display options
         self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
-        self.info_page_scroll.grid(row=0, column=4)
+        self.info_page_scroll.grid(row=0, column=5)
 
-        self.display_area = Frame(self.root, width = 900, height=700, relief=SUNKEN, bg = 'black') # , yscrollcommand=self.info_page_scroll.set)
+        self.display_area = Frame(self.root, width = 900, height=700, relief=SUNKEN, bg = 'black')#, yscrollcommand=self.info_page_scroll.set)
         self.display_area.grid(row=0, column=0)
-        self.entry = Table(self.display_area)
+        self.entry = Table(self.display_area, self.tree, self.criteria, self.enter_value)
 
         self.root.mainloop()
 
@@ -114,10 +130,6 @@ class Admin:
 
         self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_start)
         self.back_button.place(x=150,y=310)
-        
-        # var1 = IntVar()
-        # FTrees = Checkbutton(master, text="Using Fusion Trees", variable=var1).place(x=400,y=230)
-        # FTrees.config(font=('ariel' ,16,'bold'), bg='black', fg='white') 
 
         self.root.mainloop()
         
@@ -290,20 +302,21 @@ class User:
         
         self.options = StringVar() #for drop down menu
         self.options.set("Select")
-        self.Changed_value = StringVar()
+        self.entered_value_saved = StringVar()
         
-        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Search By",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.lblMovieName.grid(row=3,column=2)
-        w = OptionMenu(self.root,self.options, "Movie Name", "Genre", "Release Year", "IMDB Rating" )
+        self.searchby = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Search By",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.searchby.grid(row=3,column=2)
+
+        w = OptionMenu(self.root,self.options, "Movie Name", "Genre", "Release Year")
         w.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
         w.grid(row=3,column=3)
- 
-        self.Changed_value = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Enter Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
-        self.Changed_value.grid(row=4,column=2)
-        self.txtchanged = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Changed_value , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtchanged.grid(row=4,column=3)
 
-        self.search_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Search", bg="powder blue", command=self.enter_details)
+        self.enter_value = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Enter Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.enter_value.grid(row=4,column=2)
+        self.txt_entered = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.entered_value_saved , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txt_entered.grid(row=4,column=3)
+
+        self.search_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Search", bg="powder blue", command=self.search)
         self.search_button.grid(row=6,column=3)
 
         self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_user)
@@ -311,10 +324,9 @@ class User:
 
         self.root.mainloop()
 
-    
-    def enter_details(self): # search by
+    def search(self): # search by
         info = Toplevel()
-        self.movie_info = Info(info, self.tree)
+        self.movie_info = Info(info, self.tree, self.options.get(), self.entered_value_saved.get())
 
     def back_user(self):
         self.root.destroy() # current window closed
@@ -371,7 +383,7 @@ class Start:
 if __name__ == "__main__":
     # create a fusion tree of degree 3
     tree = FusionTree(243)
-    f = open("test_movies.csv", encoding="utf8")
+    f = open("movies.csv", encoding="utf8")
     f.readline()
     length = 0
     for i in f:
