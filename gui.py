@@ -5,36 +5,60 @@ import time
 from tkinter import messagebox
 from my_fusion import*
 
-
-
 class Table:   
-    def __init__(self,root, tree, criteria, enter_value):
+    def __init__(self,root, tree, genre, movie, year):
         self.tree = tree
         final_lst = []
+        print(genre)
+        print(movie)
+        print(year)
+
         for i in range(1,1000):
             lst = self.tree.successor(i)
             if len(final_lst) > 0:
                 if lst != final_lst[-1]:
-                    if criteria == "Movie Name":
-                        if lst[1] == enter_value:
+                    if movie != "":
+                        if genre != "" and genre != "Select":
+                            if year != "":
+                                if lst[1] == movie and lst[2] == genre and lst[4] == year:
+                                    final_lst.append(lst)
+                            elif lst[1] == movie and lst[2] == genre:
+                                final_lst.append(lst)
+                        elif lst[1] == movie and lst[4] == year:
                             final_lst.append(lst)
-                    elif criteria == "Genre":
-                        if lst[2] == enter_value:
+                        elif lst[1] == movie:
                             final_lst.append(lst)
-                    elif criteria == "Release Year":
-                        if lst[4] == enter_value:
+                    elif genre != "" and genre != "Select":
+                        if year != "":
+                            if lst[2] == genre and lst[4] == year:
+                                final_lst.append(lst)
+                        elif lst[2] == genre:
+                            final_lst.append(lst)
+                    elif year != "":
+                        if lst[4] == year:
                             final_lst.append(lst)
             else:
-                if criteria == "Movie Name":
-                    if lst[1] == enter_value:
+                if movie != "":
+                    if genre != "" and genre != "Select":
+                        if year != "":
+                            if lst[1] == movie and lst[2] == genre and lst[4] == year:
+                                final_lst.append(lst)
+                        elif lst[1] == movie and lst[2] == genre:
+                            final_lst.append(lst)
+                    elif lst[1] == movie and lst[4] == year:
                         final_lst.append(lst)
-                elif criteria == "Genre":
-                    if lst[2] == enter_value:
+                    elif lst[1] == movie:
                         final_lst.append(lst)
-                elif criteria == "Release Year":
-                    if lst[4] == enter_value:
+                elif genre != "" and genre != "Select":
+                    if year != "":
+                        if lst[4] == year and lst[2] == genre:
+                            final_lst.append(lst)
+                    elif lst[2] == genre:
                         final_lst.append(lst)
-        
+                elif year != "":
+                    if lst[4] == year:
+                        final_lst.append(lst)
+
         self.entry = Entry(root, width=26, fg='blue', 
                                font=('Arial',16,'bold'))                 
         self.entry.grid(row=0, column=0) 
@@ -82,15 +106,16 @@ class Table:
         # self.total_columns = len(lst)
 
 class Info:
-    def __init__(self, master, tree, criteria, given_value):
+    def __init__(self, master, tree, genre, movie, year):
         self.root = master
         self.root.geometry("1600x700+0+0")
         self.root.title("Movie Info")
         self.root.configure(bg='black')
 
         self.tree = tree
-        self.criteria = criteria
-        self.enter_value = given_value
+        self.genre = genre
+        self.movie = movie
+        self.year = year
 
         # display options
         self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
@@ -98,7 +123,7 @@ class Info:
 
         self.display_area = Frame(self.root, width = 900, height=700, relief=SUNKEN, bg = 'black')#, yscrollcommand=self.info_page_scroll.set)
         self.display_area.grid(row=0, column=0)
-        self.entry = Table(self.display_area, self.tree, self.criteria, self.enter_value)
+        self.entry = Table(self.display_area, self.tree, self.genre, self.movie, self.year)
 
         self.root.mainloop()
 
@@ -299,22 +324,28 @@ class User:
         self.tree = tree
 
         # buttons, inputs
-        
         self.options = StringVar() #for drop down menu
         self.options.set("Select")
-        self.entered_value_saved = StringVar()
+        self.movie = StringVar()
+        self.year = StringVar()
         
-        self.searchby = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Search By",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.searchby.grid(row=3,column=2)
+        self.genre = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.genre.grid(row=3,column=2)
 
-        w = OptionMenu(self.root,self.options, "Movie Name", "Genre", "Release Year")
-        w.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
-        w.grid(row=3,column=3)
+        self.label_genre = OptionMenu(self.root,self.options, "Comedy", "Action", "Adventure", "Crime", "Mystery", "Animation")
+        self.label_genre.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
+        self.label_genre.grid(row=3,column=3)
 
-        self.enter_value = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Enter Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
-        self.enter_value.grid(row=4,column=2)
-        self.txt_entered = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.entered_value_saved , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txt_entered.grid(row=4,column=3)
+        self.enter_movie = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Name",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.enter_movie.grid(row=4,column=2)
+        self.movie_entered = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.movie , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.movie_entered.grid(row=4,column=3)
+
+        self.enter_year = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Year Released",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.enter_year.grid(row=5,column=2)
+        self.movie_year = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.year , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.movie_year.grid(row=5,column=3)
+
 
         self.search_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Search", bg="powder blue", command=self.search)
         self.search_button.grid(row=6,column=3)
@@ -326,7 +357,7 @@ class User:
 
     def search(self): # search by
         info = Toplevel()
-        self.movie_info = Info(info, self.tree, self.options.get(), self.entered_value_saved.get())
+        self.movie_info = Info(info, self.tree, self.options.get(), self.movie.get(), self.year.get())
 
     def back_user(self):
         self.root.destroy() # current window closed
