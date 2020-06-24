@@ -10,97 +10,71 @@ from my_fusion import*
 class Table:   
     def __init__(self,root): 
         # sample data 
-        # lst = [(1, 'Chernobyl', 'Drama', 7), 
-        #     (2, 'How to ...','Drama', 6.7), 
-        #     (3, 'The Truthful', 'Thriller', 5), 
-        #     (4, 'Shutter Island', 'Drama', 3), 
-        #     (5, 'Morocco', 'Drama', 4),
-        #     (1, 'Chernobyl', 'Drama', 7), 
-        #     (2, 'How to ...','Drama', 6.7), 
-        #     (3, 'The Truthful', 'Thriller', 5), 
-        #     (4, 'Shutter Island', 'Drama', 3), 
-        #     (5, 'Morocco', 'Drama', 4),
-        #     (1, 'Chernobyl', 'Drama', 7), 
-        #     (2, 'How to ...','Drama', 6.7), 
-        #     (3, 'The Truthful', 'Thriller', 5), 
-        #     (4, 'Shutter Island', 'Drama', 3), 
-        #     (5, 'Morocco', 'Drama', 4),
-        #     (1, 'Chernobyl', 'Drama', 7), 
-        #     (2, 'How to ...','Drama', 6.7), 
-        #     (3, 'The Truthful', 'Thriller', 5), 
-        #     (4, 'Shutter Island', 'Drama', 3), 
-        #     (5, 'Morocco', 'Drama', 4),
-        #     (1, 'Chernobyl', 'Drama', 7), 
-        #     (2, 'How to ...','Drama', 6.7), 
-        #     (3, 'The Truthful', 'Thriller', 5), 
-        #     (4, 'Shutter Island', 'Drama', 3), 
-        #     (5, 'Morocco', 'Drama', 4),
-        #     (1, 'Chernobyl', 'Drama', 7), 
-        #     (2, 'How to ...','Drama', 6.7), 
-        #     (3, 'The Truthful', 'Thriller', 5), 
-        #     (4, 'Shutter Island', 'Drama', 3), 
-        #     (5, 'Morocco', 'Drama', 4)] 
+        lst = [(1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4),
+            (1, 'Chernobyl', 'Drama', 7), 
+            (2, 'How to ...','Drama', 6.7), 
+            (3, 'The Truthful', 'Thriller', 5), 
+            (4, 'Shutter Island', 'Drama', 3), 
+            (5, 'Morocco', 'Drama', 4)] 
         # find total number of rows and columns in list 
-        tree = FusionTree(243)
-        f = open("movies.csv", encoding="utf8")
-        f.readline()
-        # s = input("What are you inserting: ")
-        # s = "Genre"
-        length = 0
-        for i in f:
-            i = i.split(",")
-            lst = [word.strip() for word in i]
-            lst = [int(lst[0])] + lst[1:]
-            tree.insert(lst)
-            length += 1
-            self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold'))                 
-            self.entry.grid(row=length, column=0) 
-            self.entry.insert(END, lst[0])
-            self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold'))
-            self.entry.grid(row=length, column=1) 
-            self.entry.insert(END, lst[1])
-            self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold'))
-            self.entry.grid(row=length, column=2) 
-            self.entry.insert(END, lst[2])
-            self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold'))
-            self.entry.grid(row=length, column=3) 
-            self.entry.insert(END, lst[3])
-            self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold'))
-            self.entry.grid(row=length, column=4) 
-            self.entry.insert(END, lst[4])
-        f.close()
-        tree.initiateTree()
+        
+            # self.entry = Entry(root, width=26, fg='blue', 
+            #                    font=('Arial',16,'bold'))                 
+            # self.entry.grid(row=length, column=0) 
+            # self.entry.insert(END, lst[0])
+            # self.entry = Entry(root, width=26, fg='blue', 
+            #                    font=('Arial',16,'bold'))
+            # self.entry.grid(row=length, column=1) 
+            # self.entry.insert(END, lst[1])
+            # self.entry = Entry(root, width=26, fg='blue', 
+            #                    font=('Arial',16,'bold'))
+            # self.entry.grid(row=length, column=2) 
+            # self.entry.insert(END, lst[2])
+            # self.entry = Entry(root, width=26, fg='blue', 
+            #                    font=('Arial',16,'bold'))
+            # self.entry.grid(row=length, column=3) 
+            # self.entry.insert(END, lst[3])
+            # self.entry = Entry(root, width=26, fg='blue', 
+            #                    font=('Arial',16,'bold'))
+            # self.entry.grid(row=length, column=4) 
+            # self.entry.insert(END, lst[4])
+
 
         # self.total_rows = length 
         # self.total_columns = len(lst)
 
-        # for creating table 
-        # for i in range(self.total_rows):
-        #         info_lst = tree.successor(i)                
-        #         self.entry = Entry(root, width=26, fg='blue', 
-        #                        font=('Arial',16,'bold'))                 
-        #         self.entry.grid(row=i, column=0) 
-        #         self.entry.insert(END, info_lst[0])
-        #         self.entry.grid(row=i, column=1) 
-        #         self.entry.insert(END, info_lst[1])
-        #         self.entry.grid(row=i, column=2) 
-        #         self.entry.insert(END, info_lst[2])
-        #         self.entry.grid(row=i, column=3) 
-        #         self.entry.insert(END, info_lst[3])
-        #         self.entry.grid(row=i, column=4) 
-        #         self.entry.insert(END, info_lst[4])
-
 class Info:
-    def __init__(self, master):
+    def __init__(self, master, tree):
         self.root = master
         self.root.geometry("1285x700+0+0")
         self.root.title("Movie Info")
         self.root.configure(bg='black')
+
+        self.tree = tree
 
         # display options
         self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
@@ -110,18 +84,19 @@ class Info:
         self.display_area.grid(row=0, column=0)
         self.entry = Table(self.display_area)
 
-
         self.root.mainloop()
 
     def exit(self):
         self.root.destroy()
 
 class Admin:
-    def __init__(self, master):
+    def __init__(self, master, tree):
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("Admin Page")
         self.root.configure(bg='black')
+
+        self.tree = tree
 
         # welcome label
         self.welcome = Label(self.root, font=( 'aria' ,25, 'bold' ),text="Welcome to admin page!",fg="white",bd=12,anchor='w', bg = 'black')
@@ -132,72 +107,77 @@ class Admin:
         self.add_button.place(x=150,y=100)
 
         self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command = self.update_movie)
-        self.update_button.place(x=150,y=200)
+        self.update_button.place(x=150,y=170)
 
         self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
-        self.delete_button.place(x=150,y=300)
+        self.delete_button.place(x=150,y=240)
+
+        self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_start)
+        self.back_button.place(x=150,y=310)
         
-        var1 = IntVar()
-        FTrees = Checkbutton(master, text="Using Fusion Trees", variable=var1).place(x=400,y=230)
-        Ftrees.config(font=('ariel' ,16,'bold'), bg='black', fg='white') 
+        # var1 = IntVar()
+        # FTrees = Checkbutton(master, text="Using Fusion Trees", variable=var1).place(x=400,y=230)
+        # FTrees.config(font=('ariel' ,16,'bold'), bg='black', fg='white') 
 
         self.root.mainloop()
         
     def add_movie(self):
         self.root.destroy() #current window closed
         self.root = Tk() #new window
-        self.user = add_details(self.root)
+        self.user = add_details(self.root, self.tree)
         
     def update_movie(self):
         self.root.destroy() #current window closed
         self.root = Tk() #new window
-        self.user = update_details(self.root)
-   
-        
+        self.user = update_details(self.root, self.tree)
+
+    def back_start(self):
+        self.root.destroy() # current window closed
+        self.root = Tk() #new window
+        self.user = Start(self.root, self.tree)
+
     def exit(self):
         self.root.destroy()
         
         
 class update_details:
-    def __init__(self, master):
+    def __init__(self, master, tree):
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("Update existing movie entries")
         self.root.configure(bg='black')
         
-        self.options = StringVar() #for drop down menu
-        self.options.set("IMDB Rating")
-        
+        self.tree = tree
 
+        self.options = StringVar() #for drop down menu
+        self.options.set("Select")
+        
         # buttons, inputs
         self.MovieName= StringVar()
-        self.MovieDirector= StringVar()
-        self.Genre = StringVar()
-        self.ReleaseYear = StringVar()
-        self.ReleaseDate= StringVar()
-        self.IMDB_Rating= StringVar()
-        
+        self.Changed_value = StringVar()
         
 
-        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text= "Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
-        self.lblMovieName.grid(row=2,column=2)
-        self.txtMovieName = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieName.grid(row=2,column=3)
+        self.lblMovieId = Label(self.root, font=( 'aria' ,16, 'bold' ),text= "Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
+        self.lblMovieId.grid(row=2,column=2)
+        self.txtMovieId = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtMovieId.grid(row=2,column=3)
 
-        self.lblMovieDirector = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Field to update",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.lblMovieDirector.grid(row=3,column=2)
-        w = OptionMenu(self.root,self.options, "Movie Name", "MovieDirector", "Genre", "ReleaseYear", "ReleaseDate", "IMDB_Rating" )
+        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Field to update",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.lblMovieName.grid(row=3,column=2)
+        w = OptionMenu(self.root,self.options, "Movie Name", "Genre", "Release Year", "IMDB Rating" )
         w.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
         w.grid(row=3,column=3)
-#         self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-#         self.txtMovieDirector.grid(row=1,column=3)
  
-        self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="New Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
-        self.lblGenre.grid(row=4,column=2)
-        self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtGenre.grid(row=4,column=3)
+        self.Changed_value = Label(self.root, font=( 'aria' ,16, 'bold' ),text="New Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.Changed_value.grid(row=4,column=2)
+        self.txtchanged = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Changed_value , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtchanged.grid(row=4,column=3)
 
+        self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command=self.enter_details)
+        self.add_button.grid(row=6,column=3)
 
+        self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_admin)
+        self.back_button.grid(row=7,column=3)
 
         self.root.mainloop()
 
@@ -206,33 +186,40 @@ class update_details:
         self.root.destroy()
         
     def enter_details(self):
-        messagebox.showinfo("Message", "User has been successfully added")
+        messagebox.showinfo("Message", "Information has been successfully added")
+
+    def back_admin(self):
+        self.root.destroy() # current window closed
+        self.root = Tk() #new window
+        self.user = Admin(self.root, self.tree)
 
 class add_details:
-    def __init__(self, master):
+    def __init__(self, master, tree):
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("New Movie Entry details")
         self.root.configure(bg='black')
 
+        self.tree = tree 
+
         # buttons, inputs
-        self.MovieName= StringVar()
-        self.MovieDirector= StringVar()
+        self.MovieId = IntVar()
+        self.MovieName = StringVar()
         self.Genre = StringVar()
         self.ReleaseYear = StringVar()
-        self.ReleaseDate= StringVar()
-        self.IMDB_Rating= StringVar()
+        self.ReleaseDate = StringVar()
+        self.IMDB_Rating = StringVar()
 
 
-        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
-        self.lblMovieName.grid(row=0,column=2)
-        self.txtMovieName = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieName.grid(row=0,column=3)
+        self.lblMovieId = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Id",fg="steel blue",bd=12,anchor='w', bg = 'black')
+        self.lblMovieId.grid(row=0,column=2)
+        self.txtMovieId = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieId , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtMovieId.grid(row=0,column=3)
 
-        self.lblMovieDirector = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Director",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.lblMovieDirector.grid(row=1,column=2)
-        self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieDirector.grid(row=1,column=3)
+        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Name",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.lblMovieName.grid(row=1,column=2)
+        self.txtMovieName= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtMovieName.grid(row=1,column=3)
 
         self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w', bg = 'black')
         self.lblGenre.grid(row=2,column=2)
@@ -255,8 +242,11 @@ class add_details:
         self.txtIMDB_Rating = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.IMDB_Rating, bd=6,insertwidth=4,bg="powder blue" ,justify='left')
         self.txtIMDB_Rating.grid(row=5,column=3)
 
-        self.show_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add Details", bg="powder blue", command=self.enter_details)
-        self.show_button.grid(row=6,column=3)
+        self.add_button = Button(self.root, padx=16, pady=8, bd=4, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add Details", bg="powder blue", command=self.enter_details)
+        self.add_button.grid(row=6,column=3)
+
+        self.back_button = Button(self.root, padx=16, pady=8, bd=4, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_admin)
+        self.back_button.grid(row=7,column=3)
 
         self.root.mainloop()
 
@@ -265,70 +255,77 @@ class add_details:
         self.root.destroy()
         
     def enter_details(self):
-        messagebox.showinfo("Message", "User has been successfully added")
-    
+        lst = [(self.MovieId).get(), self.MovieName.get(), self.Genre.get(), self.IMDB_Rating.get(), self.ReleaseYear.get()]
+        flag = True
+        for i in range(0, len(lst)):
+            if i == 0:
+                if lst[i] == 0:
+                    flag = False
+                    messagebox.showinfo("Message", "Please enter Movie Id!")
+                    break
+            elif len(lst[i]) == 0:
+                messagebox.showinfo("Message", "Please enter all the informations!")
+                flag = False
+                break
+        if flag:
+            self.tree.insert(lst)
+            messagebox.showinfo("Message", "Information has been successfully added!")
+
+    def back_admin(self):
+        self.root.destroy() # current window closed
+        self.root = Tk() #new window
+        self.user = Admin(self.root, self.tree)
+
 
 class User:
-    def __init__(self, master):
+    def __init__(self, master, tree):
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("User Page")
         self.root.configure(bg='grey')
 
+        self.tree = tree
+
         # buttons, inputs
-        self.MovieName= StringVar()
-        self.MovieDirector= StringVar()
-        self.Genre = StringVar()
-        self.ReleaseYear = StringVar()
-        self.ReleaseDate= StringVar()
-        self.IMDB_Rating= StringVar()
+        
+        self.options = StringVar() #for drop down menu
+        self.options.set("Select")
+        self.Changed_value = StringVar()
+        
+        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Search By",fg="steel blue",bd=10,anchor='w',bg = 'black')
+        self.lblMovieName.grid(row=3,column=2)
+        w = OptionMenu(self.root,self.options, "Movie Name", "Genre", "Release Year", "IMDB Rating" )
+        w.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
+        w.grid(row=3,column=3)
+ 
+        self.Changed_value = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Enter Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
+        self.Changed_value.grid(row=4,column=2)
+        self.txtchanged = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Changed_value , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
+        self.txtchanged.grid(row=4,column=3)
 
+        self.search_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Search", bg="powder blue", command=self.enter_details)
+        self.search_button.grid(row=6,column=3)
 
-        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
-        self.lblMovieName.grid(row=0,column=2)
-        self.txtMovieName = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieName.grid(row=0,column=3)
-
-        self.lblMovieDirector = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Movie Director",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.lblMovieDirector.grid(row=1,column=2)
-        self.txtMovieDirector= Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieDirector , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieDirector.grid(row=1,column=3)
-
-        self.lblGenre= Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w', bg = 'black')
-        self.lblGenre.grid(row=2,column=2)
-        self.txtGenre = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Genre , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtGenre.grid(row=2,column=3)
-
-
-        self.lblReleaseYear = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Release year",fg="steel blue",bd=10,anchor='w',  bg = 'black')
-        self.lblReleaseYear.grid(row=3,column=2)
-        self.txtReleaseYear = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.ReleaseYear , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtReleaseYear.grid(row=3,column=3)
-
-        self.lblReleaseDate = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Release Date",fg="steel blue",bd=10,anchor='w',  bg = 'black')
-        self.lblReleaseDate.grid(row=4,column=2)
-        self.txtReleaseDate = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.ReleaseDate , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtReleaseDate.grid(row=4,column=3)
-
-        self.lblIMDB_Rating = Label(self.root, font=( 'aria' ,16, 'bold' ),text="IMDB Rating",fg="steel blue",bd=10,anchor='w',  bg = 'black')
-        self.lblIMDB_Rating.grid(row=5,column=2)
-        self.txtIMDB_Rating = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.IMDB_Rating, bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtIMDB_Rating.grid(row=5,column=3)
-
-        self.show_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Show", bg="powder blue", command=self.show_func)
-        self.show_button.grid(row=6,column=3)
+        self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_user)
+        self.back_button.grid(row=7,column=3)
 
         self.root.mainloop()
 
-    def show_func(self):
+    
+    def enter_details(self): # search by
         info = Toplevel()
-        self.movie_info = Info(info)
+        self.movie_info = Info(info, self.tree)
+
+    def back_user(self):
+        self.root.destroy() # current window closed
+        self.root = Tk() #new window
+        self.user = Start(self.root, self.tree)
 
     def exit(self):
         self.root.destroy()
         
 class Start:
-    def __init__(self, master):
+    def __init__(self, master, tree):
         self.root = master
         self.root.geometry("500x400+0+0")
         self.root.title("Movies Management System")
@@ -352,23 +349,40 @@ class Start:
         self.user_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="User", bg="powder blue", command=self.user_button_func)
         self.user_button.place(x=150,y=250)
 
+        # initiate f-tree
+        self.tree = tree
 
         self.root.mainloop()
     
     def user_button_func(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = User(self.root)
+        self.user = User(self.root, self.tree)
 
     def admin_button_func(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = Admin(self.root)
+        self.user = Admin(self.root, self.tree)
 
     def exit(self):
         self.root.destroy()
 
 #-------------------------------------------
-
-root = Tk()
-s = Start(root)
+if __name__ == "__main__":
+    # create a fusion tree of degree 3
+    tree = FusionTree(243)
+    f = open("test_movies.csv", encoding="utf8")
+    f.readline()
+    length = 0
+    for i in f:
+        i = i.split(",")
+        lst = [word.strip() for word in i]
+        lst = [int(lst[0])] + lst[1:]
+        tree.insert(lst)
+        length += 1
+    f.close()
+    tree.initiateTree()
+    # start gui
+    root = Tk()
+    s = Start(root, tree)
+    
