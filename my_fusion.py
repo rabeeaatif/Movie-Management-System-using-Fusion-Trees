@@ -451,6 +451,12 @@ if __name__ == "__main__":
     #             for j in i.children:
     #                 if j is not None:
     #                     print( j.keys)
-    for i in range(1000):
-        print(i, "------------------->", tree.predecessor(i), sep = '\t')
+    
+    
+    #### Search will take 2 arguments: category and value
+    ##some examples of queries are: (Date, 1980), (Genre, Adventure)
+    g= tree.search1("Genre", "Comedy")
+    h= tree.search1("Genre", "Adventure")
+    i= tree.search1("Genre", "Action")
+    #print(g)
     
