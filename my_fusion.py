@@ -232,6 +232,23 @@ class FusionTree:
         i += 1
         sketch_len = int(pow(node.key_count, 3)) + 1
         return node.key_count - (i // sketch_len)
+    
+    def search1(self, category, value):
+        lstt=[]
+        for i in range(1000):            
+            x= self.predecessor(i, None)
+            #print(x)
+            if x!=[-1]:
+                if category=="Genre":
+                    if x[2]==value:
+                        lstt.append(x)
+                elif category=="Title":
+                    if x[1]==value:
+                        lstt.append(x)
+                elif category=="year":
+                    if x[3]==value:
+                        lstt.append(x)
+        return lstt
 
     def successor(self, k, node = None):
         if node == None:
