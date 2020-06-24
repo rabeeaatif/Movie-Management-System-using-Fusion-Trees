@@ -1,57 +1,106 @@
 from tkinter import*
 import random
 import time
+import csv
+from csv import writer
 #import tkMessageBox
 from tkinter import messagebox
-
-
+from my_fusion import*
+import sqlite3
+conn = sqlite3.connect('my_database.db')
 
 class Table:   
     def __init__(self,root): 
         # sample data 
-        lst = [(1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4)] 
+        # lst = [(1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4)] 
         # find total number of rows and columns in list 
-        self.total_rows = len(lst) 
-        self.total_columns = len(lst[0]) 
+        tree = FusionTree(243)
+        f = open("moviess.csv", encoding="utf8")
+        f.readline()
+        # s = input("What are you inserting: ")
+        # s = "Genre"
+        length = 0
+        for i in f:
+            i = i.split(",")
+            lst = [word.strip() for word in i]
+            lst = [int(lst[0])] + lst[1:]
+            print("lst", lst)
+            self.tree.insert(lst)
+            length += 1
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))                 
+            self.entry.grid(row=length, column=0) 
+            self.entry.insert(END, lst[0])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=1) 
+            self.entry.insert(END, lst[1])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=2) 
+            self.entry.insert(END, lst[2])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=3) 
+            self.entry.insert(END, lst[3])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=4) 
+            self.entry.insert(END, lst[4])
+            
+       
+        f.close()
+        self.tree.initiateTree()
+        for i in range(10):
+            print(i, "------------------->", self.tree.predecessor(i), sep = '\t')
+
+        # self.total_rows = length 
+        # self.total_columns = len(lst)
 
         # for creating table 
-        for i in range(self.total_rows): 
-            for j in range(self.total_columns): 
-                  
-                self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold')) 
-                  
-                self.entry.grid(row=i, column=j) 
-                self.entry.insert(END, lst[i][j]) 
+        # for i in range(self.total_rows):
+        #         info_lst = tree.successor(i)                
+        #         self.entry = Entry(root, width=26, fg='blue', 
+        #                        font=('Arial',16,'bold'))                 
+        #         self.entry.grid(row=i, column=0) 
+        #         self.entry.insert(END, info_lst[0])
+        #         self.entry.grid(row=i, column=1) 
+        #         self.entry.insert(END, info_lst[1])
+        #         self.entry.grid(row=i, column=2) 
+        #         self.entry.insert(END, info_lst[2])
+        #         self.entry.grid(row=i, column=3) 
+        #         self.entry.insert(END, info_lst[3])
+        #         self.entry.grid(row=i, column=4) 
+        #         self.entry.insert(END, info_lst[4])
 
 class Info:
     def __init__(self, master):
@@ -61,8 +110,8 @@ class Info:
         self.root.configure(bg='black')
 
         # display options
-        self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
-        self.info_page_scroll.grid(row=0, column=4)
+#         self.info_page_scroll = Scrollbar(self.root, bd=12, bg = 'black', orient=VERTICAL, width=20)
+#         self.info_page_scroll.grid(row=0, column=4)
 
         self.display_area = Frame(self.root, width = 900, height=700, relief=SUNKEN, bg = 'black') # , yscrollcommand=self.info_page_scroll.set)
         self.display_area.grid(row=0, column=0)
@@ -223,7 +272,30 @@ class add_details:
         self.root.destroy()
         
     def enter_details(self):
-        messagebox.showinfo("Message", "User has been successfully added")
+        
+        l =  list()
+        l = [5, "Heello", "Horror", "6","2010"]
+        
+        with open('moviess.csv', 'a+', newline='') as write_obj:
+                # Create a writer object from csv module
+                csv_writer = writer(write_obj)
+                # Add contents of list as last row in the csv file
+                csv_writer.writerow(l)
+                
+        #t = table(self.root)
+        
+#         info = Toplevel()
+#         self.movie_info = Info(info)
+#         #entering deatils into the fusion tree
+        #t = Table(self.root)
+
+#         print("lll", l)
+#         self.movie_info.insert(l)
+#         for i in range(10):
+#             print(i, "------------------->", tree.predecessor(i), sep = '\t')
+#         #messagebox.showinfo("Message", "User has been successfully added")
+#         
+#         self.movie_info = Info(t)
     
 
 class User:
@@ -327,5 +399,6 @@ class Start:
         self.root.destroy()
 
 #-------------------------------------------
+
 root = Tk()
 s = Start(root)
