@@ -3,55 +3,97 @@ import random
 import time
 #import tkMessageBox
 from tkinter import messagebox
+from my_fusion import*
 
 
 
 class Table:   
     def __init__(self,root): 
         # sample data 
-        lst = [(1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4),
-            (1, 'Chernobyl', 'Drama', 7), 
-            (2, 'How to ...','Drama', 6.7), 
-            (3, 'The Truthful', 'Thriller', 5), 
-            (4, 'Shutter Island', 'Drama', 3), 
-            (5, 'Morocco', 'Drama', 4)] 
+        # lst = [(1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4),
+        #     (1, 'Chernobyl', 'Drama', 7), 
+        #     (2, 'How to ...','Drama', 6.7), 
+        #     (3, 'The Truthful', 'Thriller', 5), 
+        #     (4, 'Shutter Island', 'Drama', 3), 
+        #     (5, 'Morocco', 'Drama', 4)] 
         # find total number of rows and columns in list 
-        self.total_rows = len(lst) 
-        self.total_columns = len(lst[0]) 
+        tree = FusionTree(243)
+        f = open("movies.csv", encoding="utf8")
+        f.readline()
+        # s = input("What are you inserting: ")
+        # s = "Genre"
+        length = 0
+        for i in f:
+            i = i.split(",")
+            lst = [word.strip() for word in i]
+            lst = [int(lst[0])] + lst[1:]
+            tree.insert(lst)
+            length += 1
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))                 
+            self.entry.grid(row=length, column=0) 
+            self.entry.insert(END, lst[0])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=1) 
+            self.entry.insert(END, lst[1])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=2) 
+            self.entry.insert(END, lst[2])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=3) 
+            self.entry.insert(END, lst[3])
+            self.entry = Entry(root, width=26, fg='blue', 
+                               font=('Arial',16,'bold'))
+            self.entry.grid(row=length, column=4) 
+            self.entry.insert(END, lst[4])
+        f.close()
+        tree.initiateTree()
+
+        # self.total_rows = length 
+        # self.total_columns = len(lst)
 
         # for creating table 
-        for i in range(self.total_rows): 
-            for j in range(self.total_columns): 
-                  
-                self.entry = Entry(root, width=26, fg='blue', 
-                               font=('Arial',16,'bold')) 
-                  
-                self.entry.grid(row=i, column=j) 
-                self.entry.insert(END, lst[i][j]) 
+        # for i in range(self.total_rows):
+        #         info_lst = tree.successor(i)                
+        #         self.entry = Entry(root, width=26, fg='blue', 
+        #                        font=('Arial',16,'bold'))                 
+        #         self.entry.grid(row=i, column=0) 
+        #         self.entry.insert(END, info_lst[0])
+        #         self.entry.grid(row=i, column=1) 
+        #         self.entry.insert(END, info_lst[1])
+        #         self.entry.grid(row=i, column=2) 
+        #         self.entry.insert(END, info_lst[2])
+        #         self.entry.grid(row=i, column=3) 
+        #         self.entry.insert(END, info_lst[3])
+        #         self.entry.grid(row=i, column=4) 
+        #         self.entry.insert(END, info_lst[4])
 
 class Info:
     def __init__(self, master):
@@ -327,5 +369,6 @@ class Start:
         self.root.destroy()
 
 #-------------------------------------------
+
 root = Tk()
 s = Start(root)
