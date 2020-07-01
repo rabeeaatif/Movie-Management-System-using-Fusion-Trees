@@ -3,17 +3,14 @@ import random
 import time
 #import tkMessageBox
 from tkinter import messagebox
-from my_fusion import*
+from fusion_tree import*
 
 class Table:   
-    def __init__(self,root, tree, genre, movie, year):
+    def __init__(self,root, tree, genre, movie, year, f_tree_length):
         self.tree = tree
         final_lst = []
-        print(genre)
-        print(movie)
-        print(year)
-
-        for i in range(1,1000):
+        
+        for i in range(1, f_tree_length):
             lst = self.tree.successor(i)
             if len(final_lst) > 0:
                 if lst != final_lst[-1]:
@@ -63,56 +60,80 @@ class Table:
                                font=('Arial',16,'bold'))                 
         self.entry.grid(row=0, column=0) 
         self.entry.insert(END, "Movie Id")
+        self.entry.config(state=DISABLED)
+        
         self.entry = Entry(root, width=26, fg='blue', 
                             font=('Arial',16,'bold'))
         self.entry.grid(row=0, column=1) 
         self.entry.insert(END, "Movie Name")
+        self.entry.config(state=DISABLED)
+        
         self.entry = Entry(root, width=26, fg='blue', 
                             font=('Arial',16,'bold'))
         self.entry.grid(row=0, column=2) 
         self.entry.insert(END, "Genres")
+        self.entry.config(state=DISABLED)
+        
         self.entry = Entry(root, width=26, fg='blue', 
                             font=('Arial',16,'bold'))
         self.entry.grid(row=0, column=3) 
         self.entry.insert(END, "IMDb Rating")
+        self.entry.config(state=DISABLED)
+        
         self.entry = Entry(root, width=26, fg='blue', 
                             font=('Arial',16,'bold'))
         self.entry.grid(row=0, column=4) 
         self.entry.insert(END, "Year")
+        self.entry.config(state=DISABLED)
+            
 
         for i in range(len(final_lst)):
             self.entry = Entry(root, width=26, fg='blue', 
                                font=('Arial',16,'bold'))                 
             self.entry.grid(row=i+1, column=0) 
             self.entry.insert(END, final_lst[i][0])
+            self.entry.config(state=DISABLED)
+            
             self.entry = Entry(root, width=26, fg='blue', 
                                font=('Arial',16,'bold'))
             self.entry.grid(row=i+1, column=1) 
             self.entry.insert(END, final_lst[i][1])
+            self.entry.config(state=DISABLED)
+
             self.entry = Entry(root, width=26, fg='blue', 
                                font=('Arial',16,'bold'))
             self.entry.grid(row=i+1, column=2) 
             self.entry.insert(END, final_lst[i][2])
+            self.entry.config(state=DISABLED)
+
             self.entry = Entry(root, width=26, fg='blue', 
                                font=('Arial',16,'bold'))
             self.entry.grid(row=i+1, column=3) 
             self.entry.insert(END, final_lst[i][3])
+            self.entry.config(state=DISABLED)
+
             self.entry = Entry(root, width=26, fg='blue', 
                                font=('Arial',16,'bold'))
             self.entry.grid(row=i+1, column=4) 
             self.entry.insert(END, final_lst[i][4])
-
-        # self.total_rows = length 
-        # self.total_columns = len(lst)
+            self.entry.config(state=DISABLED)
 
 class Info:
-    def __init__(self, master, tree, genre, movie, year):
+    def __init__(self, master, tree, genre, movie, year, f_tree_length):
         self.root = master
-        self.root.geometry("1600x700+0+0")
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = screen_width//2 - 1600//2
+        y = screen_height//2 - 700//2
+
+        self.root.geometry("1600x700+%d+%d" % (x, y))
         self.root.title("Movie Info")
         self.root.configure(bg='black')
 
         self.tree = tree
+        self.tree_length = f_tree_length
         self.genre = genre
         self.movie = movie
         self.year = year
@@ -123,7 +144,7 @@ class Info:
 
         self.display_area = Frame(self.root, width = 900, height=700, relief=SUNKEN, bg = 'black')#, yscrollcommand=self.info_page_scroll.set)
         self.display_area.grid(row=0, column=0)
-        self.entry = Table(self.display_area, self.tree, self.genre, self.movie, self.year)
+        self.entry = Table(self.display_area, self.tree, self.genre, self.movie, self.year, self.tree_length)
 
         self.root.mainloop()
 
@@ -131,13 +152,21 @@ class Info:
         self.root.destroy()
 
 class Admin:
-    def __init__(self, master, tree):
+    def __init__(self, master, tree, f_tree_length):
         self.root = master
-        self.root.geometry("500x400+0+0")
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = screen_width//2 - 500//2
+        y = screen_height//2 - 400//2
+
+        self.root.geometry("500x400+%d+%d" % (x, y))
         self.root.title("Admin Page")
         self.root.configure(bg='black')
 
         self.tree = tree
+        self.tree_length = f_tree_length
 
         # welcome label
         self.welcome = Label(self.root, font=( 'aria' ,25, 'bold' ),text="Welcome to admin page!",fg="white",bd=12,anchor='w', bg = 'black')
@@ -161,30 +190,38 @@ class Admin:
     def add_movie(self):
         self.root.destroy() #current window closed
         self.root = Tk() #new window
-        self.user = add_details(self.root, self.tree)
+        self.user = add_details(self.root, self.tree, self.tree_length)
         
     def update_movie(self):
         self.root.destroy() #current window closed
         self.root = Tk() #new window
-        self.user = update_details(self.root, self.tree)
+        self.user = update_details(self.root, self.tree, self.tree_length)
 
     def back_start(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = Start(self.root, self.tree)
+        self.user = Start(self.root, self.tree, self.tree_length)
 
     def exit(self):
         self.root.destroy()
         
         
 class update_details:
-    def __init__(self, master, tree):
+    def __init__(self, master, tree, f_tree_length):
         self.root = master
-        self.root.geometry("500x400+0+0")
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = screen_width//2 - 500//2
+        y = screen_height//2 - 400//2
+
+        self.root.geometry("500x400+%d+%d" % (x, y))
         self.root.title("Update existing movie entries")
         self.root.configure(bg='black')
         
         self.tree = tree
+        self.tree_length = f_tree_length
 
         self.options = StringVar() #for drop down menu
         self.options.set("Select")
@@ -228,16 +265,24 @@ class update_details:
     def back_admin(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = Admin(self.root, self.tree)
+        self.user = Admin(self.root, self.tree, self.tree_length)
 
 class add_details:
-    def __init__(self, master, tree):
+    def __init__(self, master, tree, f_tree_length):
         self.root = master
-        self.root.geometry("500x400+0+0")
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = screen_width//2 - 500//2
+        y = screen_height//2 - 400//2
+
+        self.root.geometry("500x400+%d+%d" % (x, y))
         self.root.title("New Movie Entry details")
         self.root.configure(bg='black')
 
-        self.tree = tree 
+        self.tree = tree
+        self.tree_length = f_tree_length
 
         # buttons, inputs
         self.MovieId = IntVar()
@@ -269,21 +314,17 @@ class add_details:
         self.txtReleaseYear = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.ReleaseYear , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
         self.txtReleaseYear.grid(row=3,column=3)
 
-        self.lblReleaseDate = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Release Date",fg="steel blue",bd=10,anchor='w',  bg = 'black')
-        self.lblReleaseDate.grid(row=4,column=2)
-        self.txtReleaseDate = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.ReleaseDate , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtReleaseDate.grid(row=4,column=3)
 
         self.lblIMDB_Rating = Label(self.root, font=( 'aria' ,16, 'bold' ),text="IMDB Rating",fg="steel blue",bd=10,anchor='w',  bg = 'black')
-        self.lblIMDB_Rating.grid(row=5,column=2)
+        self.lblIMDB_Rating.grid(row=4,column=2)
         self.txtIMDB_Rating = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.IMDB_Rating, bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtIMDB_Rating.grid(row=5,column=3)
+        self.txtIMDB_Rating.grid(row=4,column=3)
 
         self.add_button = Button(self.root, padx=16, pady=8, bd=4, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add Details", bg="powder blue", command=self.enter_details)
-        self.add_button.grid(row=6,column=3)
+        self.add_button.grid(row=5,column=3)
 
         self.back_button = Button(self.root, padx=16, pady=8, bd=4, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_admin)
-        self.back_button.grid(row=7,column=3)
+        self.back_button.grid(row=6,column=3)
 
         self.root.mainloop()
 
@@ -311,17 +352,25 @@ class add_details:
     def back_admin(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = Admin(self.root, self.tree)
+        self.user = Admin(self.root, self.tree, self.tree_length)
 
 
 class User:
-    def __init__(self, master, tree):
+    def __init__(self, master, tree, f_tree_length):
         self.root = master
-        self.root.geometry("500x400+0+0")
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = screen_width//2 - 500//2
+        y = screen_height//2 - 400//2
+
+        self.root.geometry("500x400+%d+%d" % (x, y))
         self.root.title("User Page")
         self.root.configure(bg='grey')
 
         self.tree = tree
+        self.tree_length = f_tree_length
 
         # buttons, inputs
         self.options = StringVar() #for drop down menu
@@ -357,20 +406,27 @@ class User:
 
     def search(self): # search by
         info = Toplevel()
-        self.movie_info = Info(info, self.tree, self.options.get(), self.movie.get(), self.year.get())
+        self.movie_info = Info(info, self.tree, self.options.get(), self.movie.get(), self.year.get(), self.tree_length)
 
     def back_user(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = Start(self.root, self.tree)
+        self.user = Start(self.root, self.tree, self.tree_length)
 
     def exit(self):
         self.root.destroy()
         
 class Start:
-    def __init__(self, master, tree):
+    def __init__(self, master, tree, f_tree_length):
         self.root = master
-        self.root.geometry("500x400+0+0")
+        self.root.update_idletasks()
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+
+        x = screen_width//2 - 500//2
+        y = screen_height//2 - 400//2
+
+        self.root.geometry("500x400+%d+%d" % (x, y))
         self.root.title("Movies Management System")
         self.root.configure(bg='grey')
 
@@ -394,18 +450,19 @@ class Start:
 
         # initiate f-tree
         self.tree = tree
+        self.tree_length = f_tree_length
 
         self.root.mainloop()
     
     def user_button_func(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = User(self.root, self.tree)
+        self.user = User(self.root, self.tree, self.tree_length)
 
     def admin_button_func(self):
         self.root.destroy() # current window closed
         self.root = Tk() #new window
-        self.user = Admin(self.root, self.tree)
+        self.user = Admin(self.root, self.tree, self.tree_length)
 
     def exit(self):
         self.root.destroy()
@@ -416,16 +473,17 @@ if __name__ == "__main__":
     tree = FusionTree(243)
     f = open("movies.csv", encoding="utf8")
     f.readline()
-    length = 0
+    f_tree_length = 0
     for i in f:
         i = i.split(",")
         lst = [word.strip() for word in i]
         lst = [int(lst[0])] + lst[1:]
         tree.insert(lst)
-        length += 1
+        f_tree_length += 1
     f.close()
+    print(f_tree_length)
     tree.initiateTree()
-    # start gui
+    # gui
     root = Tk()
-    s = Start(root, tree)
+    s = Start(root, tree, f_tree_length)
     
