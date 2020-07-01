@@ -161,7 +161,7 @@ class Admin:
         x = screen_width//2 - 500//2
         y = screen_height//2 - 400//2
 
-        self.root.geometry("500x400+%d+%d" % (x, y))
+        self.root.geometry("630x400+%d+%d" % (x, y))
         self.root.title("Admin Page")
         self.root.configure(bg='black')
 
@@ -174,16 +174,16 @@ class Admin:
 
         # buttons
         self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add", bg="powder blue", command = self.add_movie)
-        self.add_button.place(x=150,y=100)
+        self.add_button.place(x=200,y=150)
 
-        self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command = self.update_movie)
-        self.update_button.place(x=150,y=170)
+#         self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command = self.update_movie)
+#         self.update_button.place(x=150,y=170)
 
-        self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
-        self.delete_button.place(x=150,y=240)
+#         self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
+#         self.delete_button.place(x=150,y=240)
 
         self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_start)
-        self.back_button.place(x=150,y=310)
+        self.back_button.place(x=200,y=250)
 
         self.root.mainloop()
         
@@ -277,7 +277,7 @@ class add_details:
         x = screen_width//2 - 500//2
         y = screen_height//2 - 400//2
 
-        self.root.geometry("500x400+%d+%d" % (x, y))
+        self.root.geometry("630x420+%d+%d" % (x, y))
         self.root.title("New Movie Entry details")
         self.root.configure(bg='black')
 
@@ -365,7 +365,7 @@ class User:
         x = screen_width//2 - 500//2
         y = screen_height//2 - 400//2
 
-        self.root.geometry("500x400+%d+%d" % (x, y))
+        self.root.geometry("630x400+%d+%d" % (x, y))
         self.root.title("User Page")
         self.root.configure(bg='grey')
 
@@ -426,7 +426,7 @@ class Start:
         x = screen_width//2 - 500//2
         y = screen_height//2 - 400//2
 
-        self.root.geometry("500x400+%d+%d" % (x, y))
+        self.root.geometry("630x400+%d+%d" % (x, y))
         self.root.title("Movies Management System")
         self.root.configure(bg='grey')
 
@@ -443,10 +443,10 @@ class Start:
 
         # for user and admin buttons
         self.admin_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Admin", bg="powder blue", command=self.admin_button_func)
-        self.admin_button.place(x=150,y=150)
+        self.admin_button.place(x=200,y=150)
 
         self.user_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="User", bg="powder blue", command=self.user_button_func)
-        self.user_button.place(x=150,y=250)
+        self.user_button.place(x=200,y=250)
 
         # initiate f-tree
         self.tree = tree
