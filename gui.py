@@ -1,7 +1,6 @@
 from tkinter import*
 import random
 import time
-#import tkMessageBox
 from tkinter import messagebox
 from fusion_tree import*
 
@@ -176,12 +175,6 @@ class Admin:
         self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Add", bg="powder blue", command = self.add_movie)
         self.add_button.place(x=200,y=150)
 
-#         self.update_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command = self.update_movie)
-#         self.update_button.place(x=150,y=170)
-
-#         self.delete_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Delete", bg="powder blue")
-#         self.delete_button.place(x=150,y=240)
-
         self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_start)
         self.back_button.place(x=200,y=250)
 
@@ -191,11 +184,6 @@ class Admin:
         self.root.destroy() #current window closed
         self.root = Tk() #new window
         self.user = add_details(self.root, self.tree, self.tree_length)
-        
-    def update_movie(self):
-        self.root.destroy() #current window closed
-        self.root = Tk() #new window
-        self.user = update_details(self.root, self.tree, self.tree_length)
 
     def back_start(self):
         self.root.destroy() # current window closed
@@ -204,68 +192,6 @@ class Admin:
 
     def exit(self):
         self.root.destroy()
-        
-        
-class update_details:
-    def __init__(self, master, tree, f_tree_length):
-        self.root = master
-        self.root.update_idletasks()
-        screen_width = self.root.winfo_screenwidth()
-        screen_height = self.root.winfo_screenheight()
-
-        x = screen_width//2 - 500//2
-        y = screen_height//2 - 400//2
-
-        self.root.geometry("500x400+%d+%d" % (x, y))
-        self.root.title("Update existing movie entries")
-        self.root.configure(bg='black')
-        
-        self.tree = tree
-        self.tree_length = f_tree_length
-
-        self.options = StringVar() #for drop down menu
-        self.options.set("Select")
-        
-        # buttons, inputs
-        self.MovieName= StringVar()
-        self.Changed_value = StringVar()
-        
-
-        self.lblMovieId = Label(self.root, font=( 'aria' ,16, 'bold' ),text= "Movie Name",fg="steel blue",bd=12,anchor='w', bg = 'black')
-        self.lblMovieId.grid(row=2,column=2)
-        self.txtMovieId = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.MovieName , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtMovieId.grid(row=2,column=3)
-
-        self.lblMovieName = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Field to update",fg="steel blue",bd=10,anchor='w',bg = 'black')
-        self.lblMovieName.grid(row=3,column=2)
-        w = OptionMenu(self.root,self.options, "Movie Name", "Genre", "Release Year", "IMDB Rating" )
-        w.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
-        w.grid(row=3,column=3)
- 
-        self.Changed_value = Label(self.root, font=( 'aria' ,16, 'bold' ),text="New Value",fg="steel blue",bd=10,anchor='w', bg = 'black')
-        self.Changed_value.grid(row=4,column=2)
-        self.txtchanged = Entry(self.root,font=('ariel' ,16,'bold'), textvariable=self.Changed_value , bd=6,insertwidth=4,bg="powder blue" ,justify='left')
-        self.txtchanged.grid(row=4,column=3)
-
-        self.add_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Update", bg="powder blue", command=self.enter_details)
-        self.add_button.grid(row=6,column=3)
-
-        self.back_button = Button(self.root, padx=16, pady=8, bd=10, fg="black", font=('ariel' ,16,'bold'), width=10, text="Back", bg="powder blue", command=self.back_admin)
-        self.back_button.grid(row=7,column=3)
-
-        self.root.mainloop()
-
-    
-    def exit(self):
-        self.root.destroy()
-        
-    def enter_details(self):
-        messagebox.showinfo("Message", "Information has been successfully added")
-
-    def back_admin(self):
-        self.root.destroy() # current window closed
-        self.root = Tk() #new window
-        self.user = Admin(self.root, self.tree, self.tree_length)
 
 class add_details:
     def __init__(self, master, tree, f_tree_length):
@@ -365,7 +291,7 @@ class User:
         x = screen_width//2 - 500//2
         y = screen_height//2 - 400//2
 
-        self.root.geometry("630x400+%d+%d" % (x, y))
+        self.root.geometry("500x400+%d+%d" % (x, y))
         self.root.title("User Page")
         self.root.configure(bg='grey')
 
@@ -381,7 +307,7 @@ class User:
         self.genre = Label(self.root, font=( 'aria' ,16, 'bold' ),text="Genre",fg="steel blue",bd=10,anchor='w',bg = 'black')
         self.genre.grid(row=3,column=2)
 
-        self.label_genre = OptionMenu(self.root,self.options, "Comedy", "Action", "Adventure", "Crime", "Mystery", "Animation")
+        self.label_genre = OptionMenu(self.root,self.options, "Comedy", "Action", "Adventure", "Crime", "Mystery", "Animation", "Horror")
         self.label_genre.config(font=('ariel' ,16,'bold'),bg="powder blue",justify='left')
         self.label_genre.grid(row=3,column=3)
 
@@ -481,7 +407,7 @@ if __name__ == "__main__":
         tree.insert(lst)
         f_tree_length += 1
     f.close()
-    print(f_tree_length)
+    print("Tree length " + str(f_tree_length))
     tree.initiateTree()
     # gui
     root = Tk()
